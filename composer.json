@@ -1,0 +1,25 @@
+{
+    "name": "tarikhagustia/laravel-mt5",
+    "description": "Metatrader 5 Web API Wrapper for Laravel",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Tarikh Agustia Ijudin",
+            "email": "agustia.tarikh150@gmail.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Tarikhagustia\\laravelMt5\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Tarikhagustia\\LaravelMt5\\LaravelMt5Provider"
+            ]
+        }
+    }
+}

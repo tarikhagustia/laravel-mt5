@@ -81,7 +81,7 @@ The result variable will return User class with login information, you can grab 
 ### Todo
 
 - [x] Deposit or Withdrawal
-- [ ] Create Account
+- [x] Create Account
 - [ ] Change Password
 - [ ] Create Group
 - [ ] Delete Group

@@ -51,6 +51,18 @@ $result = $api->trade($trade);
 ```
 
 The result variable will return Trade class with ticket information, you can grab ticket number by calling ``$result->getTicket()``
+
+### Todo
+
+- [x] Deposit or Withdrawal
+- [ ] Create Account
+- [ ] Change Password
+- [ ] Create Group
+- [ ] Delete Group
+- [ ] Get Accounts
+- [ ] Remove Account
+- [ ] Get Trades
+- [ ] Get Group
    
 ## Contributing
 

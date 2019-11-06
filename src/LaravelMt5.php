@@ -5,13 +5,17 @@ namespace Tarikhagustia\LaravelMt5;
 
 
 use Tarikhagustia\LaravelMt5\Entities\Trade;
+use Tarikhagustia\LaravelMt5\Entities\User;
 use Tarikhagustia\LaravelMt5\Exceptions\ConnectionException;
 use Tarikhagustia\LaravelMt5\Exceptions\TradeException;
+use Tarikhagustia\LaravelMt5\Exceptions\UserException;
 use Tarikhagustia\LaravelMt5\Lib\MTAuthProtocol;
 use Tarikhagustia\LaravelMt5\Lib\MTConnect;
 use Tarikhagustia\LaravelMt5\Lib\MTLogger;
 use Tarikhagustia\LaravelMt5\Lib\MTRetCode;
 use Tarikhagustia\LaravelMt5\Lib\MTTradeProtocol;
+use Tarikhagustia\LaravelMt5\Lib\MTUser;
+use Tarikhagustia\LaravelMt5\Lib\MTUserProtocol;
 
 //+------------------------------------------------------------------+
 //--- web api version
@@ -83,6 +87,13 @@ class LaravelMt5
         if ($this->m_connect) $this->m_connect->Disconnect();
     }
 
+    /**
+     * Create trade record such as Deposit or Withdrawal
+     * @param Trade $trade
+     * @return Trade
+     * @throws ConnectionException
+     * @throws TradeException
+     */
     public function trade(Trade $trade): Trade
     {
         if (!$this->isConnected())
@@ -103,5 +114,49 @@ class LaravelMt5
         }
         $trade->setTicket($ticket);
         return $trade;
+    }
+
+    /**
+     * Create new User
+     * @param User $user
+     * @return User
+     * @throws ConnectionException
+     * @throws UserException
+     */
+    public function createUser(User $user): User
+    {
+        if (!$this->isConnected())
+        {
+            $conn = $this->connect();
+            if ($conn != MTRetCode::MT_RET_OK)
+            {
+                throw new ConnectionException(MTRetCode::GetError($conn));
+            }
+        }
+        $mt_user = new MTUserProtocol($this->m_connect);
+        $mtUser = MTUser::CreateDefault();
+        $mtUser->Group = $user->getGroup();
+        $mtUser->Name = $user->getName();
+        $mtUser->Email = $user->getEmail();
+        $mtUser->Address = $user->getAddress();
+        $mtUser->City = $user->getCity();
+        $mtUser->State = $user->getState();
+        $mtUser->Country = $user->getCountry();
+        $mtUser->MainPassword = $user->getMainPassword();
+        $mtUser->Phone = $user->getPhone();
+        $mtUser->PhonePassword = $user->getPhonePassword();
+        $mtUser->InvestPassword = $user->getInvestorPassword();
+        $mtUser->Group = $user->getGroup();
+        $mtUser->Leverage = $user->getLeverage();
+        $mtUser->ZipCode = $user->getZipCode();
+
+        $newMtUser = MTUser::CreateDefault();
+        $result = $mt_user->Add($mtUser, $newMtUser);
+        if ($result != MTRetCode::MT_RET_OK)
+        {
+            throw new UserException(MTRetCode::GetError($result));
+        }
+        $user->setLogin($newMtUser->Login);
+        return $user;
     }
 }

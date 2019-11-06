@@ -177,7 +177,7 @@ class User
         return $this->address;
     }
 
-    public function setAddress($address): void
+    public function setAddress($address)
     {
         $this->address = $address;
         return $this;

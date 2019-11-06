@@ -52,6 +52,32 @@ $result = $api->trade($trade);
 
 The result variable will return Trade class with ticket information, you can grab ticket number by calling ``$result->getTicket()``
 
+### Create User
+```php
+use Tarikhagustia\LaravelMt5\Entities\User;
+use Tarikhagustia\LaravelMt5\LaravelMt5;
+
+$api = new LaravelMt5();
+$user = new User();
+$user->setName("John Due");
+$user->setEmail("john@due.com");
+$user->setGroup("demo\demoforex");
+$user->setLeverage("50");
+$user->setPhone("0856123456");
+$user->setAddress("Sukabumi");
+$user->setCity("Sukabumi");
+$user->setState("Jawa Barat");
+$user->setCountry("Indonesia");
+$user->setZipCode(1470);
+$user->setMainPassword("Secure123");
+$user->setInvestorPassword("NotSecure123");
+$user->setPhonePassword("NotSecure123");
+
+$result = $api->createUser($user);
+```
+
+The result variable will return User class with login information, you can grab login number by calling ``$result->getLogin()``
+
 ### Todo
 
 - [x] Deposit or Withdrawal

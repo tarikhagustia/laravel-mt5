@@ -16,6 +16,8 @@ use Tarikhagustia\LaravelMt5\Lib\MTRetCode;
 use Tarikhagustia\LaravelMt5\Lib\MTTradeProtocol;
 use Tarikhagustia\LaravelMt5\Lib\MTUser;
 use Tarikhagustia\LaravelMt5\Lib\MTUserProtocol;
+use Tarikhagustia\LaravelMt5\Lib\MTOrderProtocol;
+use Tarikhagustia\LaravelMt5\src\Lib\MTEnDealAction;
 
 //+------------------------------------------------------------------+
 //--- web api version
@@ -52,6 +54,7 @@ class LaravelMt5
 
         //--- create connection class
         $this->m_connect = new MTConnect($ip, $port, $timeout, $this->m_is_crypt);
+        // dd($login, $password);
         //--- create connection
         if (($error_code = $this->m_connect->Connect()) != MTRetCode::MT_RET_OK) return $error_code;
         //--- authorization to MetaTrader 5 server
@@ -96,20 +99,17 @@ class LaravelMt5
      */
     public function trade(Trade $trade): Trade
     {
-        if (!$this->isConnected())
-        {
+        if (!$this->isConnected()) {
             $conn = $this->connect();
-            if ($conn != MTRetCode::MT_RET_OK)
-            {
+            if ($conn != MTRetCode::MT_RET_OK) {
                 throw new ConnectionException(MTRetCode::GetError($conn));
             }
         }
         $mt_trade = new MTTradeProtocol($this->m_connect);
         $ticket = null;
 
-        $call =  $mt_trade->TradeBalance($trade->getLogin(), $trade->getType(), $trade->getAmount(), $trade->getComment(), $ticket);
-        if ($call != MTRetCode::MT_RET_OK)
-        {
+        $call = $mt_trade->TradeBalance($trade->getLogin(), $trade->getType(), $trade->getAmount(), $trade->getComment(), $ticket);
+        if ($call != MTRetCode::MT_RET_OK) {
             throw new TradeException(MTRetCode::GetError($call));
         }
         $trade->setTicket($ticket);
@@ -125,11 +125,10 @@ class LaravelMt5
      */
     public function createUser(User $user): User
     {
-        if (!$this->isConnected())
-        {
+        if (!$this->isConnected()) {
             $conn = $this->connect();
-            if ($conn != MTRetCode::MT_RET_OK)
-            {
+
+            if ($conn != MTRetCode::MT_RET_OK) {
                 throw new ConnectionException(MTRetCode::GetError($conn));
             }
         }
@@ -152,11 +151,197 @@ class LaravelMt5
 
         $newMtUser = MTUser::CreateDefault();
         $result = $mt_user->Add($mtUser, $newMtUser);
-        if ($result != MTRetCode::MT_RET_OK)
-        {
+        if ($result != MTRetCode::MT_RET_OK) {
             throw new UserException(MTRetCode::GetError($result));
         }
         $user->setLogin($newMtUser->Login);
         return $user;
     }
+
+    /**
+     * Get list users login
+     *
+     * @param string $group
+     * @return MTRetCode
+     * @throws ConnectionException
+     * @throws UserException
+     */
+    public function getUserLogins($group)
+    {
+        $logins = null;
+        if (!$this->isConnected()) {
+            $conn = $this->connect();
+
+            if ($conn != MTRetCode::MT_RET_OK) {
+                throw new ConnectionException(MTRetCode::GetError($conn));
+            }
+        }
+
+        $mt_user = new MTUserProtocol($this->m_connect);
+        $result = $mt_user->UserLogins($group, $logins);
+        if ($result != MTRetCode::MT_RET_OK) {
+            throw new UserException(MTRetCode::GetError($result));
+        }
+        return $logins;
+    }
+
+    /**
+     * Get User Information By Login
+     * @param $login
+     * @return null
+     * @throws ConnectionException
+     * @throws UserException
+     */
+    public function getUser($login)
+    {
+        $user = null;
+        if (!$this->isConnected()) {
+            $conn = $this->connect();
+
+            if ($conn != MTRetCode::MT_RET_OK) {
+                throw new ConnectionException(MTRetCode::GetError($conn));
+            }
+        }
+        $mt_user = new MTUserProtocol($this->m_connect);
+        $result = $mt_user->Get($login, $user);
+        if ($result != MTRetCode::MT_RET_OK) {
+            throw new UserException(MTRetCode::GetError($result));
+        }
+        return $user;
+    }
+
+    /**
+     * Delete user by login
+     * @param $login
+     * @return bool
+     * @throws ConnectionException
+     * @throws UserException
+     */
+    public function deleteUser($login)
+    {
+        $user = null;
+        if (!$this->isConnected()) {
+            $conn = $this->connect();
+
+            if ($conn != MTRetCode::MT_RET_OK) {
+                throw new ConnectionException(MTRetCode::GetError($conn));
+            }
+        }
+        $mt_user = new MTUserProtocol($this->m_connect);
+        $result = $mt_user->Delete($login, $user);
+        if ($result != MTRetCode::MT_RET_OK) {
+            throw new UserException(MTRetCode::GetError($result));
+        }
+        return true;
+    }
+
+    /**
+     * Get Order Details
+     * @param $ticket
+     * @return int
+     * @throws ConnectionException
+     * @throws UserException
+     */
+    public function getOrder($ticket)
+    {
+        $order = 0;
+        $user = null;
+        if (!$this->isConnected()) {
+            $conn = $this->connect();
+
+            if ($conn != MTRetCode::MT_RET_OK) {
+                throw new ConnectionException(MTRetCode::GetError($conn));
+            }
+        }
+        $mt_order = new MTOrderProtocol($this->m_connect);
+        $result = $mt_order->OrderGet($ticket, $order);
+        if ($result != MTRetCode::MT_RET_OK) {
+            throw new UserException(MTRetCode::GetError($result));
+        }
+        return $order;
+    }
+
+    /**
+     * Get Total Order
+     * @param $login
+     * @return int
+     * @throws ConnectionException
+     * @throws UserException
+     */
+    public function getOrderTotal($login)
+    {
+        $total = 0;
+        $user = null;
+        if (!$this->isConnected()) {
+            $conn = $this->connect();
+
+            if ($conn != MTRetCode::MT_RET_OK) {
+                throw new ConnectionException(MTRetCode::GetError($conn));
+            }
+        }
+        $mt_order = new MTOrderProtocol($this->m_connect);
+        $result = $mt_order->OrderGetTotal($login, $total);
+        if ($result != MTRetCode::MT_RET_OK) {
+            throw new UserException(MTRetCode::GetError($result));
+        }
+        return $total;
+    }
+
+    /**
+     * Get Open Order Pagination
+     * @param $login
+     * @param $offset
+     * @param $total
+     * @return null
+     * @throws ConnectionException
+     * @throws UserException
+     */
+    public function getOrderPagination($login, $offset, $total)
+    {
+        $orders = null;
+        $user = null;
+        if (!$this->isConnected()) {
+            $conn = $this->connect();
+
+            if ($conn != MTRetCode::MT_RET_OK) {
+                throw new ConnectionException(MTRetCode::GetError($conn));
+            }
+        }
+        $mt_order = new MTOrderProtocol($this->m_connect);
+        $result = $mt_order->OrderGetPage($login, $offset, $total, $orders);
+        if ($result != MTRetCode::MT_RET_OK) {
+            throw new UserException(MTRetCode::GetError($result));
+        }
+        return $orders;
+    }
+
+    /**
+     * Conduct User balance
+     * @param $login
+     * @param MTEnDealAction $type
+     * @param $balance
+     * @param $comment
+     * @return null
+     * @throws ConnectionException
+     * @throws UserException
+     */
+    public function conductUserBalance($login, MTEnDealAction $type, $balance, $comment)
+    {
+        $ticket = null;
+        if (!$this->isConnected()) {
+            $conn = $this->connect();
+
+            if ($conn != MTRetCode::MT_RET_OK) {
+                throw new ConnectionException(MTRetCode::GetError($conn));
+            }
+        }
+        $mt_order = new MTTradeProtocol($this->m_connect);
+        $result = $mt_order->TradeBalance($login, $type, $balance, $comment);
+        if ($result != MTRetCode::MT_RET_OK) {
+            throw new UserException(MTRetCode::GetError($result));
+        }
+        return $ticket;
+    }
+
+
 }

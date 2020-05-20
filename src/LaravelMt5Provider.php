@@ -23,7 +23,7 @@ class LaravelMt5Provider extends ServiceProvider
     public function boot()
     {
         $this->publishes([
-            __DIR__.'config/mt5.php' => config_path('mt5.php'),
+            __DIR__.'/config/mt5.php' => config_path('mt5.php'),
         ]);
     }
 }

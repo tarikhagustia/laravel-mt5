@@ -78,7 +78,7 @@ $result = $api->createUser($user);
 
 ### Get Trading Account Information
 ```php
-use Tarikh\PhpMeta\MetaTraderClient;
+use Tarikhagustia\LaravelMt5\LaravelMt5;
 
 $api = new LaravelMt5();
 $user = $api->getTradingAccounts($login);
@@ -90,7 +90,7 @@ $freeMargin = $user->MarginFree;
 
 ### Get Trading History By Login Number
 ```php
-use Tarikh\PhpMeta\MetaTraderClient;
+use Tarikhagustia\LaravelMt5\LaravelMt5;
 
 $api = new LaravelMt5();
 // Get Closed Order Total and pagination

@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "tarikh/php-mt5",
-            "version": "1.5.2",
+            "version": "1.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tarikhagustia/php-mt5.git",
-                "reference": "81bc7ebf690fe48145dd03cb5f8886c3dbff1ede"
+                "reference": "c332dd0a2bf6a9313bdd9e447ba1d4ba3db957b5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tarikhagustia/php-mt5/zipball/81bc7ebf690fe48145dd03cb5f8886c3dbff1ede",
-                "reference": "81bc7ebf690fe48145dd03cb5f8886c3dbff1ede",
+                "url": "https://api.github.com/repos/tarikhagustia/php-mt5/zipball/c332dd0a2bf6a9313bdd9e447ba1d4ba3db957b5",
+                "reference": "c332dd0a2bf6a9313bdd9e447ba1d4ba3db957b5",
                 "shasum": ""
             },
             "type": "library",
@@ -39,9 +39,9 @@
             "description": "A Metatrader 5 Web API Wrapper for Laravel",
             "support": {
                 "issues": "https://github.com/tarikhagustia/php-mt5/issues",
-                "source": "https://github.com/tarikhagustia/php-mt5/tree/1.5.2"
+                "source": "https://github.com/tarikhagustia/php-mt5/tree/1.6.0"
             },
-            "time": "2021-08-05T03:36:00+00:00"
+            "time": "2021-08-13T06:47:10+00:00"
         }
     ],
     "packages-dev": [],

@@ -108,7 +108,7 @@ foreach ($trades as $trade) {
 use Tarikhagustia\LaravelMt5\LaravelMt5;
 $api = new LaravelMt5();
 $api->dealerSend([
-    'Login' => 8113
+    'Login' => 8113,
     'Symbol' => 'XAUUSD',
     'Volume' => 100,
     'Type' => 0

@@ -29,10 +29,16 @@ class LaravelMt5 extends MetaTraderClient
             // Let us request the symbol named TEST using the symbol_get command
             $path = '/api/dealer/send_request';
             $result = $request->Get($path, json_encode($params));
+            $response  = json_decode($result);
+            if ($response->retcode == "0 Done")
+            {
+                $request->Shutdown();
+                return true;
+            }else{
+                return false;
+            }
         }
-        $request->Shutdown();
-
-        return true;
+        return false;
     }
 
 }

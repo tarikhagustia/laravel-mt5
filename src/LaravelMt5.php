@@ -5,7 +5,7 @@ namespace Tarikhagustia\LaravelMt5;
 
 
 use Tarikh\PhpMeta\MetaTraderClient;
-use Tarikh\PhpMeta\Entities\Order;
+use Tarikh\PhpMeta\Lib\CMT5Request;
 
 
 class LaravelMt5 extends MetaTraderClient
@@ -19,15 +19,20 @@ class LaravelMt5 extends MetaTraderClient
         parent::__construct($ip, (int)$port, $login, $password, config('app.debug'));
     }
 
-    public function openOrder($login, $symbol, $volume, $type)
+    public function dealerSend($params)
     {
-        $order = new Order();
-        $order->setLogin($login);
-        $order->setSymbol($symbol);
-        $order->setVolume($volume);
-        $order->setType($type);
-        $order->setAction(200);
-        return $this->newOrder($order);
+        // Example of use
+        $request = new CMT5Request();
+        // Authenticate on the server using the Auth command
+        if ($request->Init($this->server.":".$this->port) && $request->Auth($this->username, $this->password, WebAPIVersion, "WebManager")) {
+
+            // Let us request the symbol named TEST using the symbol_get command
+            $path = '/api/dealer/send_request';
+            $result = $request->Get($path, json_encode($params));
+        }
+        $request->Shutdown();
+
+        return true;
     }
 
 }

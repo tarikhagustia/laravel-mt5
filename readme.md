@@ -103,6 +103,15 @@ foreach ($trades as $trade) {
 }
 ```
 
+### Open Order
+```php
+use Tarikhagustia\LaravelMt5\LaravelMt5;
+$api = new LaravelMt5();
+// login, symbol, volume, type
+$api->openOrder(8113, 'XAUDUSD', 100, 0);
+```
+
+
 
 The result variable will return User class with login information, you can grab login number by calling ``$result->getLogin()``
 
@@ -110,6 +119,8 @@ The result variable will return User class with login information, you can grab 
 
 - [x] Deposit or Withdrawal
 - [x] Create Account
+- [x] Open Order
+- [x] Get Trading Account Information
 - [ ] Change Password
 - [ ] Create Group
 - [ ] Delete Group

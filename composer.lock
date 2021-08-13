@@ -1,0 +1,56 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "ff9df85cd60b3c6a8a3573d1093eccb8",
+    "packages": [
+        {
+            "name": "tarikh/php-mt5",
+            "version": "1.5.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/tarikhagustia/php-mt5.git",
+                "reference": "81bc7ebf690fe48145dd03cb5f8886c3dbff1ede"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/tarikhagustia/php-mt5/zipball/81bc7ebf690fe48145dd03cb5f8886c3dbff1ede",
+                "reference": "81bc7ebf690fe48145dd03cb5f8886c3dbff1ede",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Tarikh\\PhpMeta\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Tarikh Agustia Ijudin",
+                    "email": "agustia.tarikh150@gmail.com"
+                }
+            ],
+            "description": "A Metatrader 5 Web API Wrapper for Laravel",
+            "support": {
+                "issues": "https://github.com/tarikhagustia/php-mt5/issues",
+                "source": "https://github.com/tarikhagustia/php-mt5/tree/1.5.2"
+            },
+            "time": "2021-08-05T03:36:00+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "2.0.0"
+}

@@ -76,6 +76,34 @@ $user->setPhonePassword("NotSecure123");
 $result = $api->createUser($user);
 ```
 
+### Get Trading Account Information
+```php
+use Tarikh\PhpMeta\MetaTraderClient;
+
+$api = new LaravelMt5();
+$user = $api->getTradingAccounts($login);
+
+$balance = $user->Balance;
+$equity = $user->Equity;
+$freeMargin = $user->MarginFree;
+```
+
+### Get Trading History By Login Number
+```php
+use Tarikh\PhpMeta\MetaTraderClient;
+
+$api = new LaravelMt5();
+// Get Closed Order Total and pagination
+$total = $api->getOrderHistoryTotal($exampleLogin, $timestampfrom, $timestampto);
+$trades = $api->getOrderHistoryPagination($exampleLogin, $timestampfrom, $timestampto, 0, $total);
+foreach ($trades as $trade) {
+    // see class MTOrder
+    echo "LOGIN : ".$trade->Login.PHP_EOL;
+    echo "TICKET : ".$trade->Order.PHP_EOL;
+}
+```
+
+
 The result variable will return User class with login information, you can grab login number by calling ``$result->getLogin()``
 
 ### Todo

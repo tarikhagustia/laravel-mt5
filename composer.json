@@ -9,7 +9,9 @@
             "email": "agustia.tarikh150@gmail.com"
         }
     ],
-    "require": {},
+    "require": {
+        "tarikh/php-mt5": "^1.5"
+    },
     "autoload": {
         "psr-4": {
             "Tarikhagustia\\LaravelMt5\\": "src/"
